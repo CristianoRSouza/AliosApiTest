@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  contacorrente-api:
+    build:
+      context: .
+      dockerfile: src/APIs/Ailos.ContaCorrente.API/Dockerfile
+    ports:
+      - "5001:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionStrings__DefaultConnection=Data Source=:memory:"
+      - "JWT__SecretKey=my-secret-key-32-characters-long"
+      - "Kafka__BootstrapServers=localhost:9092"
+    networks:
+      - ailos-network
+
+  transferencia-api:
+    build:
+      context: .
+      dockerfile: src/APIs/Ailos.Transferencia.API/Dockerfile
+    ports:
+      - "5002:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionStrings__DefaultConnection=Data Source=:memory:"
+      - "JWT__SecretKey=my-secret-key-32-characters-long"
+      - "ContaCorrenteAPI__BaseUrl=http://contacorrente-api:8080"
+      - "Kafka__BootstrapServers=localhost:9092"
+    depends_on:
+      - contacorrente-api
+    networks:
+      - ailos-network
+
+networks:
+  ailos-network:
+    driver: bridge

@@ -1,0 +1,17 @@
+{
+  "profiles": {
+    "Multiple Projects": {
+      "commandName": "Project",
+      "projects": [
+        {
+          "path": "src\\APIs\\Ailos.ContaCorrente.API\\Ailos.ContaCorrente.API.csproj",
+          "action": "Start"
+        },
+        {
+          "path": "src\\APIs\\Ailos.Transferencia.API\\Ailos.Transferencia.API.csproj", 
+          "action": "Start"
+        }
+      ]
+    }
+  }
+}

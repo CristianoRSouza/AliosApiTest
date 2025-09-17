@@ -1,0 +1,15 @@
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS test
+
+WORKDIR /src
+
+# Copiar arquivos de projeto
+COPY src/ src/
+COPY tests/ tests/
+
+# Restaurar dependências
+RUN dotnet restore tests/Ailos.ContaCorrente.UnitTests/Ailos.ContaCorrente.UnitTests.csproj
+RUN dotnet restore tests/Ailos.Transferencia.UnitTests/Ailos.Transferencia.UnitTests.csproj
+RUN dotnet restore tests/Ailos.IntegrationTests/Ailos.IntegrationTests.csproj
+
+# Executar testes
+CMD ["sh", "-c", "echo '🧪 Executando Testes Unitários ContaCorrente' && dotnet test tests/Ailos.ContaCorrente.UnitTests/Ailos.ContaCorrente.UnitTests.csproj --verbosity normal && echo '🧪 Executando Testes Unitários Transferência' && dotnet test tests/Ailos.Transferencia.UnitTests/Ailos.Transferencia.UnitTests.csproj --verbosity normal && echo '✅ Testes Concluídos!'"]
